@@ -7,6 +7,34 @@ import com.starknet.stark.data.types.Felt;
 import java.util.List;
 
 public class InvokeTransactionPayload {
+    public Felt getSenderAddress() {
+        return senderAddress;
+    }
+
+    public List<Felt> getCalldata() {
+        return calldata;
+    }
+
+    public List<Felt> getSignature() {
+        return signature;
+    }
+
+    public Felt getMaxFee() {
+        return maxFee;
+    }
+
+    public Felt getVersion() {
+        return version;
+    }
+
+    public Felt getNonce() {
+        return nonce;
+    }
+
+    public TransactionType getType() {
+        return type;
+    }
+
     @SerializedName("sender_address")
     private Felt senderAddress;
 
@@ -37,4 +65,5 @@ public class InvokeTransactionPayload {
         this.version = version;
         this.nonce = nonce;
     }
+
 }

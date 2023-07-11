@@ -23,13 +23,15 @@ public class DeclareTransactionV2Payload {
     private List<Felt> signature;
     @SerializedName("sender_address")
     private Felt senderAddress ;
+    @SerializedName("compiled_class_hash")
+    private Felt compiledClassHash;
     @SerializedName("version")
     private Felt version = new Felt( BigInteger.ONE);
     @SerializedName("type")
     private TransactionType type;
 
-    public DeclareTransactionV2Payload(Cairo1ContractDefinition contractDefinition, Felt maxFee, Felt nonce, List<Felt> signature, Felt senderAddress, Felt version, TransactionType type) {
-        this.contractDefinition = contractDefinition;
+    public DeclareTransactionV2Payload(Felt compiledClassHash, Felt maxFee, Felt nonce, List<Felt> signature, Felt senderAddress, Felt version, TransactionType type) {
+        this.compiledClassHash = compiledClassHash;
         this.maxFee = maxFee;
         this.nonce = nonce;
         this.signature = signature;

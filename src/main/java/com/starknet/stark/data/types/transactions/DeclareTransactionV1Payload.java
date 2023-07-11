@@ -3,7 +3,7 @@ package com.starknet.stark.data.types.transactions;
 
 import com.google.gson.annotations.SerializedName;
 import com.starknet.stark.data.types.Felt;
-import com.sun.org.apache.bcel.internal.generic.NEW;
+import com.starknet.stark.data.types.contract.Cairo0ContractDefinition;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -37,4 +37,6 @@ public class DeclareTransactionV1Payload {
         this.version = version;
         this.type = type;
     }
+
+
 }

@@ -9,20 +9,39 @@ import com.starknet.stark.data.types.contract.Cairo1ContractDefinition;
 import com.starknet.stark.data.types.contract.CasmContractDefinition;
 import com.starknet.stark.data.types.response.EstimateFeeResponse;
 import com.starknet.stark.data.types.response.InvokeFunctionResponse;
-import com.starknet.stark.data.types.transactions.DeclareTransactionV1Payload;
-import com.starknet.stark.data.types.transactions.DeclareTransactionV2Payload;
-import com.starknet.stark.data.types.transactions.DeployAccountTransactionPayload;
-import com.starknet.stark.data.types.transactions.InvokeTransactionPayload;
+import com.starknet.stark.data.types.transactions.*;
+import com.starknet.stark.provider.Provider;
 import com.starknet.stark.provider.Request;
+import com.starknet.stark.signer.Signer;
+import com.starknet.stark.signer.StarkCurveSigner;
 
+import java.math.BigInteger;
 import java.security.Signature;
 import java.util.List;
 
+import static com.starknet.stark.data.types.Call.callsToExecuteCalldata;
+
 public class StandardAccount extends Account{
 
+    private Signer signer;
+    private Provider provider;
+    private Felt version = Felt.ONE;
+    private BigInteger estimateVersion = BigInteger.valueOf(2).pow(128).add(version.getValue());
+
+    public StandardAccount(Felt address, Felt privateKey,Provider provider){
+        this.address = address;
+        this.signer = new StarkCurveSigner(privateKey);
+        this.provider = provider;
+    }
 
     @Override
     public InvokeTransactionPayload sign(List<Call> calls, ExecutionParams params, Boolean forFeeEstimate) {
+        List<Felt> calldata = callsToExecuteCalldata(calls);
+        Felt signVersion = forFeeEstimate ? new Felt(estimateVersion) : version;
+        InvokeTransactionV1 tx = TransactionFactory.makeInvokeTransaction(address, calldata,
+                provider.chainId,
+                params.getNonce(), params.getMaxFee(), null, signVersion
+        );
         return null;
     }
 
